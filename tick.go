@@ -9,7 +9,7 @@ import (
 type tickMsg struct{}
 
 func tick() tea.Cmd {
-	return tea.Tick(75*time.Millisecond, func(t time.Time) tea.Msg {
+	return tea.Tick(100*time.Millisecond, func(t time.Time) tea.Msg {
 		return tickMsg{}
 	})
 }

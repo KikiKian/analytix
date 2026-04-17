@@ -1,4 +1,4 @@
-package main
+package system
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	psnet "github.com/shirou/gopsutil/v3/net"
 )
 
-func getNetworkSpeed(prevRecv, prevSent uint64) (uint64, uint64, uint64, uint64) {
+func GetNetworkSpeed(prevRecv, prevSent uint64) (uint64, uint64, uint64, uint64) {
 	stats, err := psnet.IOCounters(false)
 	if err != nil || len(stats) == 0 {
 		return 0, 0, prevRecv, prevSent
@@ -21,7 +21,7 @@ func getNetworkSpeed(prevRecv, prevSent uint64) (uint64, uint64, uint64, uint64)
 	return download, upload, recv, sent
 }
 
-func formatSpeed(bytesPerSec uint64) string {
+func FormatSpeed(bytesPerSec uint64) string {
 	switch {
 	case bytesPerSec < 1024:
 		return fmt.Sprintf("%d B/s", bytesPerSec)
@@ -32,7 +32,7 @@ func formatSpeed(bytesPerSec uint64) string {
 	}
 }
 
-func getHostname() string {
+func GetHostname() string {
 	hostname, err := os.Hostname()
 	if err != nil {
 		return "unknown"
@@ -40,20 +40,20 @@ func getHostname() string {
 	return hostname
 }
 
-func getNetworkName() string {
-	stats, err := psnet.IOCounters(true) // true = per interface
+func GetNetworkName() string {
+	stats, err := psnet.IOCounters(true)
 	if err != nil || len(stats) == 0 {
 		return "unknown"
 	}
 	for _, s := range stats {
-		if s.Name != "lo" { // skip loopback
+		if s.Name != "lo" {
 			return s.Name
 		}
 	}
 	return "unknown"
 }
 
-func getIP() string {
+func GetIP() string {
 	conn, err := stdnet.Dial("udp", "8.8.8.8:80")
 	if err != nil {
 		log.Println("IP error:", err)

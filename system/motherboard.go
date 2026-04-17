@@ -1,11 +1,11 @@
-package main
+package system
 
 import (
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/mem"
 )
 
-func getCPU() float64 {
+func GetCPU() float64 {
 	info, err := cpu.Percent(0, false)
 	if err != nil {
 		return 0.0
@@ -18,7 +18,7 @@ func getCPU() float64 {
 	return info[0]
 }
 
-func getRAM() float64 {
+func GetRAM() float64 {
 	virtualMemory, err := mem.VirtualMemory()
 	if err != nil {
 		return 0.0

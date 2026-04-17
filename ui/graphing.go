@@ -1,10 +1,10 @@
-package main
+package ui
 
 import "github.com/guptarohit/asciigraph"
 
 const historySize = 200
 
-func appendHistory(history []float64, value float64) []float64 {
+func AppendHistory(history []float64, value float64) []float64 {
 	history = append(history, value)
 	if len(history) > historySize {
 		history = history[1:]
@@ -12,7 +12,7 @@ func appendHistory(history []float64, value float64) []float64 {
 	return history
 }
 
-func smooth(history []float64, window int) []float64 {
+func Smooth(history []float64, window int) []float64 {
 	if len(history) < window {
 		return history
 	}
@@ -31,11 +31,11 @@ func smooth(history []float64, window int) []float64 {
 	return smoothed
 }
 
-func renderCPUGraph(history []float64, width, height int) string {
+func RenderCPUGraph(history []float64, width, height int) string {
 	if len(history) == 0 {
 		return ""
 	}
-	return asciigraph.Plot(smooth(history, 5),
+	return asciigraph.Plot(Smooth(history, 5),
 		asciigraph.Height(height),
 		asciigraph.Width(width),
 		asciigraph.LowerBound(0),
@@ -43,11 +43,11 @@ func renderCPUGraph(history []float64, width, height int) string {
 		asciigraph.SeriesColors(asciigraph.Green),
 	)
 }
-func renderDownloadGraph(history []float64, width, height int) string {
+func RenderDownloadGraph(history []float64, width, height int) string {
 	if len(history) == 0 {
 		return ""
 	}
-	return asciigraph.Plot(smooth(history, 5),
+	return asciigraph.Plot(Smooth(history, 5),
 		asciigraph.Height(height),
 		asciigraph.Width(width),
 		asciigraph.LowerBound(0),
@@ -55,11 +55,11 @@ func renderDownloadGraph(history []float64, width, height int) string {
 	)
 }
 
-func renderUploadGraph(history []float64, width, height int) string {
+func RenderUploadGraph(history []float64, width, height int) string {
 	if len(history) == 0 {
 		return ""
 	}
-	return asciigraph.Plot(smooth(history, 5),
+	return asciigraph.Plot(Smooth(history, 5),
 		asciigraph.Height(height),
 		asciigraph.Width(width),
 		asciigraph.LowerBound(0),

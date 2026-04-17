@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"analytix/system"
+	"analytix/ui"
+
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -36,17 +39,17 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.width = msg.Width
 		m.height = msg.Height
 	case tickMsg:
-		m.cpu = getCPU()
-		m.ram = getRAM()
+		m.cpu = system.GetCPU()
+		m.ram = system.GetRAM()
 		var dl, ul uint64
-		dl, ul, m.prevRecv, m.prevSent = getNetworkSpeed(m.prevRecv, m.prevSent)
+		dl, ul, m.prevRecv, m.prevSent = system.GetNetworkSpeed(m.prevRecv, m.prevSent)
 		m.dlRaw = dl
 		m.ulRaw = ul
-		m.download = formatSpeed(dl)
-		m.upload = formatSpeed(ul)
-		m.cpuHistory = appendHistory(m.cpuHistory, m.cpu)
-		m.dlHistory = appendHistory(m.dlHistory, float64(m.dlRaw/1024))
-		m.ulHistory = appendHistory(m.ulHistory, float64(m.ulRaw/1024))
+		m.download = system.FormatSpeed(dl)
+		m.upload = system.FormatSpeed(ul)
+		m.cpuHistory = ui.AppendHistory(m.cpuHistory, m.cpu)
+		m.dlHistory = ui.AppendHistory(m.dlHistory, float64(m.dlRaw/1024))
+		m.ulHistory = ui.AppendHistory(m.ulHistory, float64(m.ulRaw/1024))
 		return m, tick()
 	}
 	return m, nil
@@ -60,11 +63,11 @@ func (m model) View() string {
 	return fmt.Sprintf(
 		"CPU: %.1f%%\n%s\n\nDownload: %s\n%s\n\nUpload: %s\n%s\n\npress q to quit",
 		m.cpu,
-		renderCPUGraph(m.cpuHistory, graphWidth, 8),
+		ui.RenderCPUGraph(m.cpuHistory, graphWidth, 8),
 		m.download,
-		renderDownloadGraph(m.dlHistory, graphWidth, 6),
+		ui.RenderDownloadGraph(m.dlHistory, graphWidth, 6),
 		m.upload,
-		renderUploadGraph(m.ulHistory, graphWidth, 6),
+		ui.RenderUploadGraph(m.ulHistory, graphWidth, 6),
 	)
 }
 
