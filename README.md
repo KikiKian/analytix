@@ -1,4 +1,6 @@
-**analytix** — the swiss army knife TUI for your terminal. Built with Go and Bubbletea, it puts everything you need to know about your machine and network in one place: CPU, RAM, disk I/O, temperatures, processes, live logs, open connections, LAN scanning, port scanning, MAC spoofing, and security tooling. You can also find analytix on __[Codeberg](https://codeberg.org/kikikian/analytix)__.
+**Analytix**, like a swiss army knife, is an all around TUI for computer monitoring that has tools for CPU, RAM, network bandwidth, processes, LAN scanning, port scanning, and security tooling in one TUI. You can also find analytix on __[Codeberg](https://codeberg.org/kikikian/analytix)__.
+
+*keep in mind analytix is still under production*
 
 # Tickets
 
